@@ -68,8 +68,18 @@ defmodule ExAws.STS.Mixfile do
 
   defp ex_aws() do
     case System.get_env("AWS") do
-      "LOCAL" -> {:ex_aws, path: "../ex_aws"}
-      _ -> {:ex_aws, "~> 2.2"}
+      "LOCAL" ->
+        {:ex_aws, path: "../ex_aws"}
+
+      _ ->
+        {
+          :ex_aws,
+          git: "https://github.com/mmzx/ex_aws.git",
+          ref: "2bf67588603693a379ab1bcc4eeeabc2b5395bea",
+          override: true
+        }
+
+#        {:ex_aws, "~> 2.2"}
     end
   end
 end
