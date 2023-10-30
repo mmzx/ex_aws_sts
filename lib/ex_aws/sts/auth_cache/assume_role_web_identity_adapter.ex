@@ -12,9 +12,8 @@ defmodule ExAws.STS.AuthCache.AssumeRoleWebIdentityAdapter do
   end
 
   def adapt_auth_config(config, _profile, expiration, loader) do
-    auth =
-      Map.merge(config, loader.(config))
-      |> Map.put(:host, ExAws.Config.Defaults.host(:sts, "us-east-1-fips"))
+    auth = Map.merge(config, loader.(config))
+    #  |> Map.put(:host, ExAws.Config.Defaults.host(:sts, "us-east-1-fips"))
 
     get_security_credentials(auth, expiration || 30_000)
   end
