@@ -12,7 +12,10 @@ defmodule ExAws.STS.AuthCache.AssumeRoleWebIdentityAdapter do
   end
 
   def adapt_auth_config(config, _profile, expiration, loader) do
-    auth = Map.merge(config, loader.(config))
+    auth =
+      Map.merge(config, loader.(config))
+      |> Map.put(:host, ExAws.Config.Defaults.host(:sts, "us-east-1-fips"))
+
     get_security_credentials(auth, expiration || 30_000)
   end
 
@@ -27,7 +30,11 @@ defmodule ExAws.STS.AuthCache.AssumeRoleWebIdentityAdapter do
         duration: duration
       )
 
-    with {:ok, result} <- ExAws.request(assume_role_request, auth) do
+    IO.inspect({assume_role_request, auth}, label: "--- sts {assume_role_request, auth} ---")
+
+    with {:ok, result} <-
+           ExAws.request(assume_role_request, auth)
+           |> IO.inspect(label: "--- sts getting security credentials return") do
       %{
         access_key_id: result.body.access_key_id,
         secret_access_key: result.body.secret_access_key,
@@ -38,7 +45,7 @@ defmodule ExAws.STS.AuthCache.AssumeRoleWebIdentityAdapter do
       }
     else
       {:error, reason} ->
-        {:error, reason}
+        IO.inspect({:error, reason}, label: "--- sts {error}")
     end
   end
 

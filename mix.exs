@@ -75,11 +75,11 @@ defmodule ExAws.STS.Mixfile do
         {
           :ex_aws,
           git: "https://github.com/mmzx/ex_aws.git",
-          ref: "2bf67588603693a379ab1bcc4eeeabc2b5395bea",
+          ref: "3f8fee090e133dac4295e940694f8b3026011a9a",
           override: true
         }
 
-#        {:ex_aws, "~> 2.2"}
+        #        {:ex_aws, "~> 2.2"}
     end
   end
 end
